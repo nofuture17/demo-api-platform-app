@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  postgres:
+    image: library/postgres:${POSTGRES_VERSION}-alpine
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  php:
+    build:
+      context: ./
+      dockerfile: ./php/Dockerfile
+    depends_on:
+      - postgres
+    volumes:
+      - ../app:/srv/app:rw,cached
+      - ../app/var:/srv/app/var:rw
+    environment:
+      XDEBUG_SESSION: ${PHP_XDEBUG_IDEKEY}
+      APP_ENV: ${APP_ENV}
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./nginx/Dockerfile
+    depends_on:
+      - php
+    volumes:
+      - ../app/public:/srv/app/public:ro
+    ports:
+      - "${NGINX_PORT}:80"
