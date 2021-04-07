@@ -1,4 +1,5 @@
-FROM php:8.0-fpm-alpine
+ARG VERSION
+FROM php:${VERSION}-fpm-alpine
 
 RUN set -ex \
   	&& apk add --update --no-cache autoconf g++ git wget make \
@@ -18,7 +19,7 @@ COPY php/conf.d/php-fpm.ini /usr/local/etc/php/conf.d/30-php-fpm.ini
 COPY php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN wget "https://getcomposer.org/composer-2.phar" -O /usr/local/bin/composer && chmod +x /usr/local/bin/composer
 
-COPY php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-RUN chmod +x /usr/local/bin/docker-entrypoint
-ENTRYPOINT ["docker-entrypoint"]
-CMD ["php-fpm"]
+COPY php/start.sh /usr/local/bin/php-start
+WORKDIR /srv/app/
+RUN chmod +x /usr/local/bin/php-start
+CMD ["php-start"]

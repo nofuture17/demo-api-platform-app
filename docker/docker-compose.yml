@@ -11,6 +11,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
   php:
     build:
+      args:
+        VERSION: ${PHP_VERSION}
       context: ./
       dockerfile: ./php/Dockerfile
     depends_on:
@@ -23,6 +25,8 @@ services:
       APP_ENV: ${APP_ENV}
   nginx:
     build:
+      args:
+        VERSION: ${NGINX_VERSION}
       context: ./
       dockerfile: ./nginx/Dockerfile
     depends_on:
