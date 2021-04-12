@@ -10,4 +10,6 @@ php bin/console cache:pool:clear cache.app
 php bin/console doctrine:migrations:migrate --no-interaction
 php bin/console cache:warmup
 
+chmod 0777 images
+
 php-fpm
