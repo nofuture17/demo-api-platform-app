@@ -28,8 +28,17 @@ class ImageFileStorageTest extends KernelTestCase
     private const IMAGE_PATH = __DIR__.'/../../files/image.png';
     private const DATE_FORMAT = 'Y-m-d';
 
+    /**
+     * @var TranslatorInterface|MockObject
+     */
     private TranslatorInterface | MockObject $translator;
+    /**
+     * @var Filesystem|MockObject
+     */
     private Filesystem | MockObject $filesystem;
+    /**
+     * @var ImageManipulatorInterface|MockObject
+     */
     private ImageManipulatorInterface | MockObject $imageManipulator;
 
     private static function assertImage(Image $result, string $name, string $ext): void

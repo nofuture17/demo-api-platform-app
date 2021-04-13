@@ -13,7 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class DeleteControllerTest extends KernelTestCase
 {
+    /**
+     * @var ImageFileStorageInterface|MockObject
+     */
     private ImageFileStorageInterface | MockObject $fileStorage;
+    /**
+     * @var EntityManagerInterface|MockObject
+     */
     private EntityManagerInterface | MockObject $entityManager;
 
     public function testInvoke(): void

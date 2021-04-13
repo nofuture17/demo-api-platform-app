@@ -42,6 +42,7 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
         'method' => 'POST',
         'path' => '/images/upload/file',
         'controller' => UploadFileController::class,
+        'deserialize' => false,
         'openapi_context' => [
             'summary' => 'Create image from multipart/form-data',
             'responses' => self::UPLOAD_FILE_RESPONSES,
@@ -102,6 +103,10 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
                     'description' => 'thumb type',
                     'schema' => [
                         'type' => 'string',
+                        'enum' => [
+                            ImageFile::TYPE_THUMB_SMALL,
+                            ImageFile::TYPE_THUMB_BIG,
+                        ],
                     ],
                 ],
             ],

@@ -18,8 +18,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class UploadDataControllerTest extends KernelTestCase
 {
+    /**
+     * @var ImageUploaderInterface|MockObject
+     */
     protected ImageUploaderInterface | MockObject $imageUploader;
+    /**
+     * @var TranslatorInterface|MockObject
+     */
     protected TranslatorInterface | MockObject $translator;
+    /**
+     * @var SerializerInterface|MockObject
+     */
     private SerializerInterface | MockObject $serializer;
 
     public function testInvokeWithError(): void

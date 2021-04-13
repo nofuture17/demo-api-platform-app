@@ -22,10 +22,25 @@ final class ImageUploaderTest extends KernelTestCase
 {
     private const FILE_PATH = __DIR__.'/../../files/image.png';
 
+    /**
+     * @var EntityManagerInterface|MockObject
+     */
     private EntityManagerInterface | MockObject $entityManager;
+    /**
+     * @var ImageFileStorageInterface|MockObject
+     */
     private ImageFileStorageInterface | MockObject $fileStorage;
+    /**
+     * @var TranslatorInterface|MockObject
+     */
     private TranslatorInterface | MockObject $translator;
+    /**
+     * @var Filesystem|MockObject
+     */
     private Filesystem | MockObject $filesystem;
+    /**
+     * @var HttpClientInterface|MockObject
+     */
     private HttpClientInterface | MockObject $httpClient;
 
     public function testHandleFile(): void

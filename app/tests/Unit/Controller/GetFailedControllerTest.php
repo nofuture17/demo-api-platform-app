@@ -16,7 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class GetFailedControllerTest extends KernelTestCase
 {
+    /**
+     * @var ImageRepositoryInterface|MockObject
+     */
     private ImageRepositoryInterface | MockObject $imageRepository;
+    /**
+     * @var PaginatorFactoryInterface|MockObject
+     */
     private PaginatorFactoryInterface | MockObject $paginationFactory;
 
     public function testInvoke(): void

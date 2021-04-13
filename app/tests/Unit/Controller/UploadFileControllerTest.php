@@ -18,7 +18,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class UploadFileControllerTest extends KernelTestCase
 {
     private const IMAGE_PATH = __DIR__.'/../../files/image.png';
+    /**
+     * @var ImageUploaderInterface|MockObject
+     */
     protected ImageUploaderInterface | MockObject $imageUploader;
+    /**
+     * @var TranslatorInterface|MockObject
+     */
     protected TranslatorInterface | MockObject $translator;
 
     public function testInvokeWithError(): void

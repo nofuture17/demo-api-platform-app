@@ -68,7 +68,7 @@
             "@auto-scripts"
         ],
         "csfix": "vendor/bin/php-cs-fixer fix src tests --config=.php_cs.dist --verbose",
-        "analyse-verbose": "vendor/bin/phpstan analyse src/ -c phpstan.neon --level=7 -vvv --memory-limit=0",
+        "analyse-verbose": "vendor/bin/phpstan analyse src/ tests/ -c phpstan.neon --level=7 -vvv --memory-limit=0",
         "check-quality": "composer csfix && composer analyse-verbose",
         "generate-coverage": "vendor/bin/phpunit --coverage-html ./var/coverage.html",
         "test": "vendor/bin/phpunit"

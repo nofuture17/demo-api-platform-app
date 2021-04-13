@@ -51,6 +51,19 @@ class ImageFile
     private ?Image $image;
 
     #[Pure]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    #[Pure]
     public function getHeight(): int
     {
         return $this->height;

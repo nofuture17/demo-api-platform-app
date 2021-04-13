@@ -1,5 +1,7 @@
 #!/bin/sh
 
+composer install
+
 echo "Waiting for db to be ready..."
 until bin/console dbal:run-sql "SELECT 1" > /dev/null 2>&1; do
   sleep 1

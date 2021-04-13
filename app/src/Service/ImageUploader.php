@@ -30,7 +30,9 @@ final class ImageUploader implements ImageUploaderInterface
     public function handleFile(UploadedFile $file): Image
     {
         $image = new Image();
+        $this->entityManager->persist($image);
         $this->saveImage($image, $file);
+        $this->entityManager->flush();
 
         return $image;
     }
@@ -38,6 +40,7 @@ final class ImageUploader implements ImageUploaderInterface
     public function handleJson(FileDataInput $file): Image
     {
         $image = new Image();
+        $this->entityManager->persist($image);
         if (empty($file->name)) {
             $image->setError($this->translator->trans('File name is required'));
         } elseif (empty($file->content) || !is_string($file->content)) {
@@ -50,14 +53,14 @@ final class ImageUploader implements ImageUploaderInterface
             }
         }
 
+        $this->entityManager->flush();
+
         return $image;
     }
 
     private function saveImage(Image $image, UploadedFile $file): void
     {
-        $this->entityManager->persist($image);
         $this->fileStorage->saveFile($image, $file);
-        $this->entityManager->flush();
     }
 
     /**

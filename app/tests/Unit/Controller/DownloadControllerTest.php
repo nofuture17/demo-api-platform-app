@@ -16,7 +16,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class DownloadControllerTest extends KernelTestCase
 {
     private const IMAGE_PATH = __DIR__.'/../../files/image.png';
+    /**
+     * @var ImageFileStorageInterface|MockObject
+     */
     private ImageFileStorageInterface | MockObject $fileStorage;
+    /**
+     * @var TranslatorInterface|MockObject
+     */
     private TranslatorInterface | MockObject $translator;
 
     public function testInvokeWithError(): void

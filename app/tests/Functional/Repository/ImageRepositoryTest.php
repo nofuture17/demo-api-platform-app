@@ -6,7 +6,7 @@ namespace app\tests\Functional\Repository;
 
 use App\DataFixtures\ImagesFixture;
 use App\Entity\Image;
-use App\Repository\ImageRepository;
+use App\Repository\ImageRepositoryInterface;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -20,14 +20,16 @@ final class ImageRepositoryTest extends KernelTestCase
     private ?ORMExecutor $fixtureExecutor = null;
 
     private EntityManagerInterface $entityManager;
-    private ImageRepository $repository;
+    private ImageRepositoryInterface $repository;
 
     protected function setUp(): void
     {
         parent::setUp();
         self::bootKernel();
         $this->entityManager = self::$kernel->getContainer()->get('doctrine.orm.entity_manager');
-        $this->repository = $this->entityManager->getRepository(Image::class);
+        /** @var ImageRepositoryInterface $repository */
+        $repository = $this->entityManager->getRepository(Image::class);
+        $this->repository = $repository;
         $this->addFixture(new ImagesFixture());
         $this->executeFixture();
     }

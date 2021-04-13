@@ -15,7 +15,13 @@ use Symfony\Component\Filesystem\Filesystem;
 
 final class ImageManipulatorTest extends KernelTestCase
 {
+    /**
+     * @var Filesystem|MockObject
+     */
     private Filesystem | MockObject $filesystem;
+    /**
+     * @var ImagineInterface|MockObject
+     */
     private ImagineInterface | MockObject $imagine;
 
     public function testSaveImage(): void
