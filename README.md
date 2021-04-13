@@ -7,7 +7,7 @@
 The application is placed in */srv/app* and starts with php *start.sh*
 ### Copy docker config
 ```shell
-cp .env.distr .env
+cp docker/.env.distr docker/.env
 ```
 ### Copy php configs
 ```shell
@@ -17,7 +17,7 @@ cp app/phpunit.xml.dist app/phpunit.xml
 ```
 ### Run docker
 ```shell
-docker-compose up -d
+docker/docker-compose up -d
 ```
 ## Useful commands inside php container
 ### Run code style fixer and php analyzer
