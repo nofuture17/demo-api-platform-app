@@ -17,7 +17,8 @@ cp app/phpunit.xml.dist app/phpunit.xml
 ```
 ### Run docker
 ```shell
-docker/docker-compose up -d
+cd docker
+docker-compose up -d
 ```
 ## Useful commands inside php container
 ### Run code style fixer and php analyzer
