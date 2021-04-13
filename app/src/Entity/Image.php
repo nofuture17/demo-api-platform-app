@@ -76,7 +76,7 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
             'responses' => self::UPLOAD_FILE_RESPONSES,
             'requestBody' => [
                 'content' => [
-                    'application/json' => [
+                    'application/ld+json' => [
                         'schema' => [
                             'type' => 'array',
                             'items' => [
@@ -144,27 +144,24 @@ class Image
     public const GROUP_ERROR = 'image:error';
     public const GROUP_SUCCESS = 'image:success';
 
+    public const FILES_REQUEST_PROPERTY = 'files';
+    public const THUMB_REQUEST_PROPERTY = 'thumb';
+
     private const UPLOAD_FILE_RESPONSES = [
         201 => [
             'description' => 'Images',
             'content' => [
-                'application/json' => self::UPLOAD_FILE_201_RESPONSE_SCHEMA,
-                'application/id+json' => self::UPLOAD_FILE_201_RESPONSE_SCHEMA,
-                'text/html' => self::UPLOAD_FILE_201_RESPONSE_SCHEMA,
+                'application/ld+json' => [
+                    'schema' => [
+                        'type' => 'array',
+                        'items' => [
+                            '$ref' => '#/components/schemas/Image.jsonld',
+                        ],
+                    ],
+                ],
             ],
-        ],
+        ]
     ];
-
-    private const UPLOAD_FILE_201_RESPONSE_SCHEMA = [
-        'schema' => [
-            'type' => 'array',
-            'items' => [
-                '$ref' => '#/components/schemas/Image.jsonld',
-            ],
-        ],
-    ];
-    public const FILES_REQUEST_PROPERTY = 'files';
-    public const THUMB_REQUEST_PROPERTY = 'thumb';
 
     /**
      * @ORM\Id

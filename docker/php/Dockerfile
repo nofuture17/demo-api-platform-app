@@ -8,7 +8,7 @@ RUN set -ex \
     && apk add --no-cache curl openssh-client freetype-dev libpng-dev libjpeg-turbo-dev libxml2-dev libressl-dev
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install -j$(nproc) intl pdo pdo_pgsql mbstring sockets opcache zip xml simplexml gd bcmath calendar \
+    && docker-php-ext-install -j$(nproc) intl pdo pdo_pgsql mbstring sockets opcache zip xml simplexml gd bcmath \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug opcache \
     && apk del autoconf g++

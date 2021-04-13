@@ -27,13 +27,13 @@ class ImageFile
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      */
     #[Groups([self::GROUP_READ])]
     private int $height = 0;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      */
     #[Groups([self::GROUP_READ])]
     private int $width = 0;

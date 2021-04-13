@@ -1,3 +1,7 @@
 api_platform:
     resource: .
     type: api_platform
+
+swagger_ui:
+    path: "docs_ui"
+    controller: api_platform.swagger.action.ui

@@ -1,5 +1,5 @@
 ##Description
-* All API methods are described in [openapi /docs](http://localhost/docs).
+* All API methods are described in [openapi /docs_ui](http://localhost/docs_ui).
 * The application doesn't require any auth.
 * Images are stored in *app/images* and available via *DownloadController* for save original file name.
 * Based on **PHP 8.0**, **Symfony 5**, **API-Platform 2.7**, **PostgreSQL 13.2**
