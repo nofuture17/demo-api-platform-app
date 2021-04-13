@@ -92,24 +92,52 @@ class ImageFileStorageTest extends KernelTestCase
 
     public function testSaveFileWithErrors(): void
     {
-        $image = (new Image())->setId(Helper::generateImageId());
+        $imageEntity = (new Image())->setId(Helper::generateImageId());
         $service = $this->createService($basePath = random_bytes(2));
-        $this->assertSaveImageWithErrors($image, $basePath);
-        $service->saveFile($image, new UploadedFile(
+        $image = $this->createMock(ImageInterface::class);
+        $image->method('getSize')->willReturn(new Box(1, 1));
+        $saveImageCallsCount = 0;
+        $this->imageManipulator->expects(self::exactly(3))
+            ->method('saveImage')
+            ->willReturnCallback(static function () use (&$saveImageCallsCount, $image) {
+                if (0 === $saveImageCallsCount++) {
+                    throw new RuntimeException();
+                }
+
+                return $image;
+            });
+        $createThumbCallsCount = 0;
+        $this->imageManipulator->expects(self::exactly(3))
+            ->method('createThumb')
+            ->willReturnCallback(static function () use (&$createThumbCallsCount, $image) {
+                if (in_array(++$createThumbCallsCount, [1, 3])) {
+                    throw new RuntimeException();
+                }
+
+                return $image;
+            });
+        $this->filesystem->expects(self::exactly(3))
+            ->method('remove')
+            ->with([
+                $this->getImagePath($basePath, $imageEntity),
+                $this->getImagePath($basePath, $imageEntity).self::THUMB_SIZE_SUFFIX_SMALL,
+                $this->getImagePath($basePath, $imageEntity).self::THUMB_SIZE_SUFFIX_BIG,
+            ]);
+        $service->saveFile($imageEntity, new UploadedFile(
             self::IMAGE_PATH,
             ($name = 'name').'.'.($ext = 'ext')
         ));
-        self::assertFailedImage($image, $name, $ext, 'Unable to resize image');
-        $service->saveFile($image, new UploadedFile(
+        self::assertFailedImage($imageEntity, $name, $ext, 'Unable to resize image');
+        $service->saveFile($imageEntity, new UploadedFile(
             self::IMAGE_PATH,
             ($name = 'name').'.'.($ext = 'ext')
         ));
-        self::assertFailedImage($image, $name, $ext, 'Unable to resize image');
-        $service->saveFile($image, new UploadedFile(
+        self::assertFailedImage($imageEntity, $name, $ext, 'Unable to resize image');
+        $service->saveFile($imageEntity, new UploadedFile(
             self::IMAGE_PATH,
             ($name = 'name').'.'.($ext = 'ext')
         ));
-        self::assertFailedImage($image, $name, $ext, 'Unable to resize image');
+        self::assertFailedImage($imageEntity, $name, $ext, 'Unable to resize image');
     }
 
     public function testSaveFile(): void
@@ -182,38 +210,5 @@ class ImageFileStorageTest extends KernelTestCase
     public function getImagePath(string $basePath, Image $image): string
     {
         return "{$basePath}/{$image->getCreatedAt()->format(self::DATE_FORMAT)}/{$image->getId()}";
-    }
-
-    private function assertSaveImageWithErrors(Image $imageEntity, string $basePath): void
-    {
-        $image = $this->createMock(ImageInterface::class);
-        $image->method('getSize')->willReturn(new Box(1, 1));
-        $saveImageCallsCount = 0;
-        $this->imageManipulator->expects(self::exactly(3))
-            ->method('saveImage')
-            ->willReturnCallback(static function () use (&$saveImageCallsCount, $image) {
-                if (0 === $saveImageCallsCount++) {
-                    throw new RuntimeException();
-                }
-
-                return $image;
-            });
-        $createThumbCallsCount = 0;
-        $this->imageManipulator->expects(self::exactly(3))
-            ->method('createThumb')
-            ->willReturnCallback(static function () use (&$createThumbCallsCount, $image) {
-                if (in_array(++$createThumbCallsCount, [1, 3])) {
-                    throw new RuntimeException();
-                }
-
-                return $image;
-            });
-        $this->filesystem->expects(self::exactly(3))
-            ->method('remove')
-            ->with([
-                $this->getImagePath($basePath, $imageEntity),
-                $this->getImagePath($basePath, $imageEntity).self::THUMB_SIZE_SUFFIX_SMALL,
-                $this->getImagePath($basePath, $imageEntity).self::THUMB_SIZE_SUFFIX_BIG,
-            ]);
     }
 }

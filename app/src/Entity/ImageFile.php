@@ -42,7 +42,7 @@ class ImageFile
      * @ORM\Column(type="string", length=255)
      */
     #[Groups([self::GROUP_READ])]
-    private string $type = '';
+    private string $type = self::TYPE_ORIGINAL;
 
     /**
      * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="files")
